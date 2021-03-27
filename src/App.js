@@ -3,10 +3,11 @@ import SizeForm from './components/SizeForm'
 import 'antd/dist/antd.css'
 import { useState } from 'react'
 import CanvasBgForm from './components/CanvasBGForm'
+import TypographyForm from './components/TypographyForm/TypographyForm'
 
 function App() {
   const [dimension, setDimension] = useState({ width: 0, height: 0 })
-  const [color, setColor] = useState('primary.1')
+  const [color, setColor] = useState('white')
 
   return (
     <Layout height="100vh">
@@ -29,6 +30,9 @@ function App() {
         <Row gutter={[8, 16]}>
           <Col flex={1}>
             <SizeForm onSizeChange={setDimension} dimension={dimension} />
+          </Col>
+          <Col flex={1}>
+            <TypographyForm />
           </Col>
           <Col flex={1}>
             <CanvasBgForm onColorSelect={setColor} color={color} />
