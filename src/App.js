@@ -28,7 +28,7 @@ function App() {
       <Sider bg="#fff" width="25%" p={3}>
         <Row gutter={[8, 16]}>
           <Col flex={1}>
-            <SizeForm onSizeChange={setDimension} />
+            <SizeForm onSizeChange={setDimension} dimension={dimension} />
           </Col>
           <Col flex={1}>
             <CanvasBgForm onColorSelect={setColor} color={color} />

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import { useState, useEffect } from 'react'
 import { Title, Row, Col } from 'antd-styled'
 import { InputNumber } from 'antd'
 
@@ -8,29 +7,22 @@ import { InputNumber } from 'antd'
  *
  * @comment SizeForm - React component.
  *
- * @since 27 Mar 2021 ( v.0.0.2 ) // LAST-EDIT DATE
+ * @since 27 Mar 2021 ( v.0.0.3 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
 
 const SizeForm = (props) => {
   // [INTERFACES]
-  const { onSizeChange } = props
-
-  // [COMPONENT_STATE_HOOKS]
-  const [dimension, setDimension] = useState({ width: 0, height: 0 })
+  const { onSizeChange, dimension } = props
 
   // [HELPER_FUNCTION]
   const setWidth = (width) => {
-    setDimension({ ...dimension, width })
+    onSizeChange({ ...dimension, width })
   }
   const setHeight = (height) => {
-    setDimension({ ...dimension, height })
+    onSizeChange({ ...dimension, height })
   }
-
-  useEffect(() => {
-    onSizeChange?.(dimension)
-  }, [dimension, onSizeChange])
 
   // [TEMPLATE]
   return (
