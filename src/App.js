@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { Layout, Content, Sider, Box, Row, Col } from 'antd-styled'
+import 'antd/dist/antd.css'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Layout height="100vh">
+      <Content>
+        <Row align="middle" justify="center" height="100%">
+          <Col>
+            <Box
+              width="30vh"
+              height="30vh"
+              bg="#fff"
+              borderColor="rgba(0,0,0,0.1)"
+              borderWidth="1px"
+              borderStyle="solid"
+              borderRadius={3}
+            />
+          </Col>
+        </Row>
+      </Content>
+      <Sider bg="#fff" p={3}>
+        config
+      </Sider>
+    </Layout>
+  )
 }
 
-export default App;
+export default App
