@@ -33,10 +33,10 @@ const SizeForm = (props) => {
       <Col span={24}>
         <Row wrap={false}>
           <Col>
-            <SizeInput onChange={setWidth} />
+            <SizeInput onChange={setWidth} value={dimension.width} />
           </Col>
           <Col>
-            <SizeInput onChange={setHeight} />
+            <SizeInput onChange={setHeight} value={dimension.height} />
           </Col>
         </Row>
       </Col>
@@ -47,7 +47,6 @@ const SizeForm = (props) => {
 const SizeInput = (props) => (
   <InputNumber
     min={0}
-    defaultValue={0}
     formatter={(value) => `${value} px`}
     parser={(value) => value.replace('px', '')}
     style={{ width: '100%' }}

@@ -1,38 +1,93 @@
-import { Layout, Content, Sider, Box, Row, Col } from 'antd-styled'
-import SizeForm from './components/SizeForm'
-import 'antd/dist/antd.css'
 import { useState } from 'react'
+import { Button } from 'antd'
+import { Layout, Content, Sider, Row, Col, Box } from 'antd-styled'
+import { Layer, Stage, Text, Group } from 'react-konva'
+import SizeForm from './components/SizeForm'
 import CanvasBgForm from './components/CanvasBGForm'
-import TypographyForm from './components/TypographyForm/TypographyForm'
+import TypographyForm from './components/TypographyForm'
+import { POSITIONS } from './constants'
+
+// [DEFAULT_STATE_VALUES]
+const INITIAL_TEXT_CONFIG = {
+  color: 'black',
+  titleFontSize: 24,
+  subTitleFontSize: 16,
+  placement: Object.keys(POSITIONS)[0]
+}
+const INITIAL_COLOR = 'white'
+const INITIAL_DIMENSION = { width: 500, height: 500 }
 
 function App() {
-  const [dimension, setDimension] = useState({ width: 0, height: 0 })
-  const [color, setColor] = useState('white')
+  // [COMPONENTS_STATE_HOOKS]
+  const [dimension, setDimension] = useState(INITIAL_DIMENSION)
+  const [color, setColor] = useState(INITIAL_COLOR)
+  const [textConfig, setTextConfig] = useState(INITIAL_TEXT_CONFIG)
 
+  // [TEMPLATE]
   return (
     <Layout height="100vh">
       <Content>
         <Row align="middle" justify="center" height="100%">
           <Col>
-            <Box
+            <Stage
               width={dimension.width}
               height={dimension.height}
-              bg={color}
-              borderColor="rgba(0,0,0,0.1)"
-              borderWidth="1px"
-              borderStyle="solid"
-              borderRadius={3}
-            />
+              style={{
+                backgroundColor: color,
+                border: '1px solid rgba(0,0,0,0.1)',
+                borderRadius: '4px'
+              }}>
+              {(textConfig.titleText || textConfig.subTitleText) && (
+                <Layer>
+                  <Item dimension={dimension} position={textConfig.placement}>
+                    {textConfig.titleText && (
+                      <Text
+                        text={textConfig.titleText}
+                        fontSize={textConfig.titleFontSize}
+                        fill={textConfig.color}
+                        align="center"
+                        width={dimension.width / 3}
+                      />
+                    )}
+                    {textConfig.subTitleText && (
+                      <Text
+                        y={textConfig.titleFontSize}
+                        text={textConfig.subTitleText}
+                        fontSize={textConfig.subTitleFontSize}
+                        fill={textConfig.color}
+                        width={dimension.width / 3}
+                      />
+                    )}
+                  </Item>
+                </Layer>
+              )}
+            </Stage>
           </Col>
         </Row>
       </Content>
       <Sider bg="#fff" width="25%" p={3}>
         <Row gutter={[8, 16]}>
           <Col flex={1}>
+            <Box display="flex" justifyContent="flex-end">
+              <Button
+                type="primary"
+                onClick={() => {
+                  setTextConfig(INITIAL_TEXT_CONFIG)
+                  setColor(INITIAL_COLOR)
+                  setDimension(INITIAL_DIMENSION)
+                }}>
+                Reset
+              </Button>
+            </Box>
+          </Col>
+          <Col flex={1}>
             <SizeForm onSizeChange={setDimension} dimension={dimension} />
           </Col>
           <Col flex={1}>
-            <TypographyForm />
+            <TypographyForm
+              textConfig={textConfig}
+              setTextConfig={setTextConfig}
+            />
           </Col>
           <Col flex={1}>
             <CanvasBgForm onColorSelect={setColor} color={color} />
@@ -40,6 +95,24 @@ function App() {
         </Row>
       </Sider>
     </Layout>
+  )
+}
+
+const Item = (props) => {
+  const { dimension, position, children } = props
+
+  const itemDimension = {
+    width: dimension.width / 3,
+    height: dimension.height / 3
+  }
+
+  return (
+    <Group
+      width={itemDimension.width}
+      height={itemDimension.height}
+      {...POSITIONS[position].calc(itemDimension, dimension)}>
+      {children}
+    </Group>
   )
 }
 
