@@ -45,14 +45,16 @@ function App() {
                         text={textConfig.titleText}
                         fontSize={textConfig.titleFontSize}
                         fill={textConfig.color}
+                        fontFamily={textConfig.textFontFamily}
                         align="center"
                         width={dimension.width / 3}
                       />
                     )}
                     {textConfig.subTitleText && (
                       <Text
-                        y={textConfig.titleFontSize}
+                        y={textConfig.titleText && textConfig.titleFontSize}
                         text={textConfig.subTitleText}
+                        fontFamily={textConfig.textFontFamily}
                         fontSize={textConfig.subTitleFontSize}
                         fill={textConfig.color}
                         width={dimension.width / 3}

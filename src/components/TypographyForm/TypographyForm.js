@@ -3,6 +3,7 @@ import { Input, InputNumber, Select } from 'antd'
 import { Title, Row, Col, Box, Text } from 'antd-styled'
 import ColorPicker from '../ColorPicker'
 import { POSITION_KEYS } from '~/constants'
+import FontPicker from 'font-picker-react'
 
 const { TextArea } = Input
 
@@ -11,7 +12,7 @@ const { TextArea } = Input
  *
  * @comment TypographyForm - React component.
  *
- * @since 27 Mar 2021 ( v.0.0.3 ) // LAST-EDIT DATE
+ * @since 28 Mar 2021 ( v.0.0.4 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -57,7 +58,30 @@ const TypographyForm = (props) => {
             />
           </Col>
           <Col span={24}>
-            <Box display="flex" justifyContent="space-between">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="baseline">
+              <Text>Text Font Family</Text>
+              <FontPicker
+                apiKey={process.env.REACT_APP_GOOGLE_FONT_API_KEY}
+                activeFontFamily={textConfig.textFontFamily}
+                limit={100}
+                sort="popularity"
+                onChange={(nextFont) =>
+                  setTextConfig({
+                    ...textConfig,
+                    textFontFamily: nextFont.family
+                  })
+                }
+              />
+            </Box>
+          </Col>
+          <Col span={24}>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="baseline">
               <Text>Title Font Size</Text>
               <InputNumber
                 value={textConfig.titleFontSize}
@@ -68,7 +92,10 @@ const TypographyForm = (props) => {
             </Box>
           </Col>
           <Col span={24}>
-            <Box display="flex" justifyContent="space-between">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="baseline">
               <Text>Sub Title Font Size</Text>
               <InputNumber
                 value={textConfig.subTitleFontSize}
@@ -79,7 +106,10 @@ const TypographyForm = (props) => {
             </Box>
           </Col>
           <Col span={24}>
-            <Box display="flex" justifyContent="space-between">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="baseline">
               <Text>Position</Text>
               <Select
                 options={POSITION_KEYS.map((positionKey) => ({
@@ -101,7 +131,6 @@ const TypographyForm = (props) => {
     </Row>
   )
 }
-
 TypographyForm.propTypes = {
   textConfig: PropTypes.shape({
     placement: PropTypes.oneOf(POSITION_KEYS),
@@ -109,7 +138,8 @@ TypographyForm.propTypes = {
     titleText: PropTypes.string,
     subTitleText: PropTypes.string,
     subTitleFontSize: PropTypes.number,
-    titleFontSize: PropTypes.number
+    titleFontSize: PropTypes.number,
+    textFontFamily: PropTypes.string
   }),
   setTextConfig: PropTypes.func
 }
