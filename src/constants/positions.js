@@ -58,4 +58,9 @@ const POSITION = {
   }
 }
 
+const POSITION_KEYS = Object.keys(POSITION)
+const POSITION_VALUES = Object.values(POSITION)
+
 export default POSITION
+
+export { POSITION_KEYS, POSITION_VALUES }
