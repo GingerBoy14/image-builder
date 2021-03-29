@@ -1,11 +1,16 @@
-import { useState } from 'react'
-import { Button } from 'antd'
+import { useState, useRef } from 'react'
+import { Button, Space } from 'antd'
 import { Layout, Content, Sider, Row, Col, Box } from 'antd-styled'
-import { Layer, Stage, Text, Group } from 'react-konva'
+import { Layer, Stage, Text, Group, Image, Rect } from 'react-konva'
+import useImage from 'use-image'
+import { saveAs } from 'file-saver'
+import dataURLtoBlob from 'dataurl-to-blob'
 import SizeForm from './components/SizeForm'
 import CanvasBgForm from './components/CanvasBGForm'
 import TypographyForm from './components/TypographyForm'
+
 import { POSITIONS } from './constants'
+import { SaveOutlined } from '@ant-design/icons'
 
 // [DEFAULT_STATE_VALUES]
 const INITIAL_TEXT_CONFIG = {
@@ -14,15 +19,39 @@ const INITIAL_TEXT_CONFIG = {
   subTitleFontSize: 16,
   placement: Object.keys(POSITIONS)[0]
 }
-const INITIAL_COLOR = 'white'
+const INITIAL_BACKGROUND = { color: 'white' }
 const INITIAL_DIMENSION = { width: 500, height: 500 }
+
+/**
+ * @info App (27 Mar 2021) // CREATION DATE
+ *
+ * @comment App - React component.
+ *
+ * @since 29 Mar 2021 ( v.0.0.5 ) // LAST-EDIT DATE
+ *
+ * @return {React.FC}
+ */
 
 function App() {
   // [COMPONENTS_STATE_HOOKS]
+  const canvasRef = useRef(null)
   const [dimension, setDimension] = useState(INITIAL_DIMENSION)
-  const [color, setColor] = useState(INITIAL_COLOR)
+  const [background, setBackground] = useState(INITIAL_BACKGROUND)
   const [textConfig, setTextConfig] = useState(INITIAL_TEXT_CONFIG)
+  const [image] = useImage(background.imageURL, 'Anonymous')
 
+  // [HELPER_FUNCTIONS]
+  const saveToFile = () => {
+    const data = canvasRef.current.toDataURL()
+    const blob = dataURLtoBlob(data)
+    saveAs(blob, 'image.png')
+  }
+  const reset = () => {
+    setTextConfig(INITIAL_TEXT_CONFIG)
+    setBackground(INITIAL_BACKGROUND)
+    setDimension(INITIAL_DIMENSION)
+  }
+  console.log()
   // [TEMPLATE]
   return (
     <Layout height="100vh">
@@ -30,13 +59,22 @@ function App() {
         <Row align="middle" justify="center" height="100%">
           <Col>
             <Stage
+              ref={canvasRef}
               width={dimension.width}
               height={dimension.height}
               style={{
-                backgroundColor: color,
                 border: '1px solid rgba(0,0,0,0.1)',
                 borderRadius: '4px'
               }}>
+              <Layer>
+                <Rect
+                  width={dimension.width}
+                  height={dimension.height}
+                  fill={background.color}
+                />
+                {image && <Image image={image} />}
+              </Layer>
+
               {(textConfig.titleText || textConfig.subTitleText) && (
                 <Layer>
                   <Item dimension={dimension} position={textConfig.placement}>
@@ -71,15 +109,17 @@ function App() {
         <Row gutter={[8, 16]}>
           <Col flex={1}>
             <Box display="flex" justifyContent="flex-end">
-              <Button
-                type="primary"
-                onClick={() => {
-                  setTextConfig(INITIAL_TEXT_CONFIG)
-                  setColor(INITIAL_COLOR)
-                  setDimension(INITIAL_DIMENSION)
-                }}>
-                Reset
-              </Button>
+              <Space>
+                <Button
+                  icon={<SaveOutlined />}
+                  type="primary"
+                  onClick={saveToFile}>
+                  Save
+                </Button>
+                <Button type="primary" onClick={reset}>
+                  Reset
+                </Button>
+              </Space>
             </Box>
           </Col>
           <Col flex={1}>
@@ -92,7 +132,13 @@ function App() {
             />
           </Col>
           <Col flex={1}>
-            <CanvasBgForm onColorSelect={setColor} color={color} />
+            <CanvasBgForm
+              onColorSelect={(color) => setBackground({ ...background, color })}
+              onImageUpload={(imageURL) =>
+                setBackground({ ...background, imageURL })
+              }
+              color={background.color}
+            />
           </Col>
         </Row>
       </Sider>

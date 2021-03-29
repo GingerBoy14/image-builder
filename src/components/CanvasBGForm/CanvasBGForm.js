@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
-import { Title, Row, Col } from 'antd-styled'
+import { Title, Row, Col, Box, Text } from 'antd-styled'
 import ColorPicker from '../ColorPicker'
+import Uploader from '../Uploader'
 
 /**
  * @info CanvasBgForm (27 Mar 2021) // CREATION DATE
@@ -14,7 +15,7 @@ import ColorPicker from '../ColorPicker'
 
 const CanvasBgForm = (props) => {
   // [INTERFACES]
-  const { onColorSelect, color } = props
+  const { onColorSelect, onImageUpload, color } = props
 
   // [HELPER_FUNCTIONS]
   const onColorChange = (color) => {
@@ -23,12 +24,21 @@ const CanvasBgForm = (props) => {
 
   // [TEMPLATE]
   return (
-    <Row>
+    <Row gutter={[8, 8]}>
       <Col span={24}>
         <Title level={3}>Background</Title>
       </Col>
-      <Col flex={1}>
+      <Col span={24}>
         <ColorPicker color={color} onChange={onColorChange} />
+      </Col>
+      <Col span={24}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="baseline">
+          <Text>Image</Text>
+          <Uploader onUploaded={onImageUpload} />
+        </Box>
       </Col>
     </Row>
   )

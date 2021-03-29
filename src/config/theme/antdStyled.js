@@ -12,7 +12,7 @@ theme.grid.paddings = [
   theme.grid.gutters.xl * 2,
   theme.grid.gutters.xxl * 2
 ]
-theme.primaryColor = '#531dab'
+theme.primaryColor = '#766bd9'
 theme.primaryGradient = 'linear-gradient(-45deg, #0D42B1, #247EE5)'
 
 theme.colors = {}
