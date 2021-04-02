@@ -39,7 +39,7 @@ const CanvasBgForm = (props) => {
           justifyContent="space-between"
           alignItems="baseline">
           <Text>Image</Text>
-          <Space>
+          <Space size={!background.imageURL ? 0 : 'small'}>
             <Uploader onUploaded={onImageUpload} />
             {background.imageURL && (
               <Remove
