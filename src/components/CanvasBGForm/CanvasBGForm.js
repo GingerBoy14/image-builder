@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types'
-import { Title, Row, Col, Box, Text } from 'antd-styled'
+import { Title, Row, Col, Box, Text, Remove } from 'antd-styled'
 import ColorPicker from '../ColorPicker'
 import Uploader from '../Uploader'
+import { CloseCircleOutlined } from '@ant-design/icons'
+import { Space } from 'antd'
 
 /**
  * @info CanvasBgForm (27 Mar 2021) // CREATION DATE
@@ -15,7 +17,7 @@ import Uploader from '../Uploader'
 
 const CanvasBgForm = (props) => {
   // [INTERFACES]
-  const { onColorSelect, onImageUpload, color } = props
+  const { onColorSelect, onImageUpload, onImageReset, background } = props
 
   // [HELPER_FUNCTIONS]
   const onColorChange = (color) => {
@@ -29,7 +31,7 @@ const CanvasBgForm = (props) => {
         <Title level={3}>Background</Title>
       </Col>
       <Col span={24}>
-        <ColorPicker color={color} onChange={onColorChange} />
+        <ColorPicker color={background.color} onChange={onColorChange} />
       </Col>
       <Col span={24}>
         <Box
@@ -37,7 +39,23 @@ const CanvasBgForm = (props) => {
           justifyContent="space-between"
           alignItems="baseline">
           <Text>Image</Text>
-          <Uploader onUploaded={onImageUpload} />
+          <Space>
+            <Uploader onUploaded={onImageUpload} />
+            {background.imageURL && (
+              <Remove
+                size="small"
+                type="text"
+                shape="default"
+                tooltip="Remove background image"
+                popconfirmPlacement="left"
+                tooltipPlacement="left"
+                itemName="image"
+                question="Remove"
+                onSubmit={onImageReset}
+                icon={<CloseCircleOutlined />}
+              />
+            )}
+          </Space>
         </Box>
       </Col>
     </Row>
@@ -45,7 +63,10 @@ const CanvasBgForm = (props) => {
 }
 
 CanvasBgForm.propTypes = {
-  color: PropTypes.string,
+  background: PropTypes.shape({
+    color: PropTypes.string,
+    imageURL: PropTypes.string
+  }),
   onColorSelect: PropTypes.func
 }
 
