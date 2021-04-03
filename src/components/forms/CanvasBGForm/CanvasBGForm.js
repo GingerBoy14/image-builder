@@ -2,8 +2,8 @@ import PropTypes from 'prop-types'
 import { Button, Popover, Space } from 'antd'
 import { Title, Row, Col, Box, Text, Remove } from 'antd-styled'
 import { CloseCircleOutlined, UploadOutlined } from '@ant-design/icons'
-import ColorPicker from '../ColorPicker'
-import Uploader from '../Uploader'
+import ColorPicker from '../../ColorPicker'
+import Uploader from '../../Uploader'
 
 /**
  * @info CanvasBgForm (27 Mar 2021) // CREATION DATE

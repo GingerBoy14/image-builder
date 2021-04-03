@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
+import React, { useEffect, useRef, useState } from 'react'
+import { Space } from 'antd'
 import { Box, Text } from 'antd-styled'
 import { ChromePicker } from 'react-color'
+import { BgColorsOutlined } from '@ant-design/icons'
 
 function useOutsideAlerter(ref, callback) {
   useEffect(() => {
@@ -21,6 +23,9 @@ function useOutsideAlerter(ref, callback) {
 }
 
 const ColorPicker = (props) => {
+  // [INTERFACES]
+  const { icon } = props
+
   // [COMPONENT_STATE_HOOKS]
   const pickerRef = useRef(null)
   const [pickerVisible, setPickerVisible] = useState(false)
@@ -30,7 +35,10 @@ const ColorPicker = (props) => {
 
   return (
     <Box display="flex" justifyContent="space-between">
-      <Text>Color</Text>
+      <Space>
+        {icon ?? <BgColorsOutlined />}
+        <Text>Color</Text>
+      </Space>
       <Box
         width="50px"
         borderRadius={3}

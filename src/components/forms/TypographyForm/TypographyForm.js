@@ -4,7 +4,7 @@ import { Title, Row, Col, Box, Text } from 'antd-styled'
 import FontPicker from 'font-picker-react'
 import { FontColorsOutlined, FontSizeOutlined } from '@ant-design/icons'
 import { PositionSelect } from '~/components/selects'
-import ColorPicker from '../ColorPicker'
+import ColorPicker from '../../ColorPicker'
 import { POSITION_KEYS } from '~/constants'
 
 const { TextArea } = Input
