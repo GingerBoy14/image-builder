@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Input, InputNumber, Select, Space } from 'antd'
 import { Title, Row, Col, Box, Text } from 'antd-styled'
 import { FontColorsOutlined, FontSizeOutlined } from '@ant-design/icons'
-import { PositionSelect } from '~/components/selects'
-import ColorPicker from '../../ColorPicker'
-import { POSITION_KEYS } from '~/constants'
-import GoogleFontLoader from 'react-google-font-loader'
 import _ from 'lodash'
+import { PositionSelect, FontFamilySelect } from '~/components/selects'
+import ColorPicker from '~/components/ColorPicker'
+import { POSITION_KEYS, FONT_WEIGHTS } from '~/constants'
 
 const { TextArea } = Input
 
@@ -20,67 +19,31 @@ const { TextArea } = Input
  *
  * @return {React.FC}
  */
-const fonts = []
-
-const FONT_WEIGHTS = {
-  100: { label: 'thin', value: 100 },
-  200: { label: 'extra-light', value: 200 },
-  300: { label: 'light', value: 300 },
-  regular: { label: 'regular', value: 400 },
-  500: { label: 'medium', value: 500 },
-  600: { label: 'semi-bold', value: 600 },
-  700: { label: 'bold', value: 700 },
-  800: { label: 'extra-bold', value: 800 },
-  900: { label: 'black', value: 900 },
-  italic: { label: 'italic', value: 'italic', style: 'italic' }
-}
 
 const TypographyForm = (props) => {
   // [INTERFACES]
   const { textConfig, setTextConfig } = props
 
   // [COMPONENT_STATE_HOOKS]
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [weights, setWeights] = useState([])
 
   // [HELPER_FUNCTION]
   const onColorChange = (color) => {
     setTextConfig({ ...textConfig, color })
   }
-
-  // [USE_EFFECTS]
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-      const response = await fetch(
-        `https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=${process.env.REACT_APP_GOOGLE_FONT_API_KEY}`
-      )
-      const googleFonts = await response.json()
-      fonts.push(
-        ...googleFonts.items.slice(0, 20).map((font) => ({
-          font: font.family,
-          weights: font.variants.filter(
-            (variant) =>
-              (variant.match(/^[0-9]+$/) || variant.match(/^[a-zA-Z]+$/)) &&
-              variant
-          )
-        }))
-      )
-      setTextConfig({
-        ...textConfig,
-        textFontFamily: fonts[0]?.font,
-        textFontWeight: FONT_WEIGHTS.regular?.value
-      })
-      setWeights(fonts[0]?.weights)
-      setLoading(false)
-    }
-
-    fetchData()
-  }, [])
+  const onFontsLoaded = (fonts, defaultWeight) => {
+    setTextConfig({
+      ...textConfig,
+      textFontFamily: fonts[0]?.font,
+      textFontWeight: defaultWeight
+    })
+    setWeights(fonts[0]?.weights)
+    setLoading(false)
+  }
 
   return (
     <Row>
-      <GoogleFontLoader fonts={fonts} />
       <Col span={24}>
         <Title level={3}>Typography</Title>
       </Col>
@@ -91,11 +54,10 @@ const TypographyForm = (props) => {
               value={textConfig.titleText}
               placeholder="Title"
               onChange={(e) => {
-                if (e.target.value) {
-                  setTextConfig({ ...textConfig, titleText: e.target.value })
-                } else {
-                  setTextConfig({ ...textConfig, titleText: undefined })
-                }
+                setTextConfig({
+                  ...textConfig,
+                  titleText: e.target.value || undefined
+                })
               }}
             />
           </Col>
@@ -104,38 +66,26 @@ const TypographyForm = (props) => {
               value={textConfig.subTitleText}
               placeholder="Subtitle"
               onChange={(e) => {
-                if (e.target.value) {
-                  setTextConfig({ ...textConfig, subTitleText: e.target.value })
-                } else {
-                  setTextConfig({ ...textConfig, subTitleText: undefined })
-                }
+                setTextConfig({
+                  ...textConfig,
+                  subTitleText: e.target.value || undefined
+                })
               }}
             />
           </Col>
           <Col span={24}>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center">
-              <Text>Text Font Family</Text>
-              <Select
-                value={textConfig.textFontFamily}
-                options={fonts.map((font) => ({
-                  label: font.font,
-                  value: font.font
-                }))}
-                onSelect={(fontFamily) => {
-                  setTextConfig({
-                    ...textConfig,
-                    textFontFamily: fontFamily,
-                    textFontWeight: FONT_WEIGHTS['regular'].value
-                  })
-                  setWeights(_.find(fonts, ['font', fontFamily])?.weights)
-                }}
-                loading={loading}
-                style={{ width: '200px' }}
-              />
-            </Box>
+            <FontFamilySelect
+              value={textConfig.textFontFamily}
+              onFontsLoaded={onFontsLoaded}
+              onFontSelect={(fontFamily, fonts) => {
+                setTextConfig({
+                  ...textConfig,
+                  textFontFamily: fontFamily,
+                  textFontWeight: FONT_WEIGHTS['regular'].value
+                })
+                setWeights(_.find(fonts, ['font', fontFamily])?.weights)
+              }}
+            />
           </Col>
           <Col span={24}>
             <Box
@@ -164,7 +114,7 @@ const TypographyForm = (props) => {
                     textFontWeight: weight
                   })
                 }}
-                style={{ width: '100px' }}
+                style={{ minWidth: '150px' }}
               />
             </Box>
           </Col>
