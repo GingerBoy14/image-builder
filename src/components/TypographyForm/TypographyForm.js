@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types'
-import { Input, InputNumber, Select } from 'antd'
+import { Input, InputNumber, Space } from 'antd'
 import { Title, Row, Col, Box, Text } from 'antd-styled'
+import FontPicker from 'font-picker-react'
+import { FontColorsOutlined, FontSizeOutlined } from '@ant-design/icons'
+import { PositionSelect } from '~/components/selects'
 import ColorPicker from '../ColorPicker'
 import { POSITION_KEYS } from '~/constants'
-import FontPicker from 'font-picker-react'
 
 const { TextArea } = Input
 
@@ -12,7 +14,7 @@ const { TextArea } = Input
  *
  * @comment TypographyForm - React component.
  *
- * @since 28 Mar 2021 ( v.0.0.4 ) // LAST-EDIT DATE
+ * @since 03 Apr 2021 ( v.0.0.5 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -78,59 +80,57 @@ const TypographyForm = (props) => {
             </Box>
           </Col>
           <Col span={24}>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="baseline">
-              <Text>Title Font Size</Text>
-              <InputNumber
-                value={textConfig.titleFontSize}
-                onChange={(size) =>
-                  setTextConfig({ ...textConfig, titleFontSize: size })
-                }
-              />
-            </Box>
+            <FontSizeInput
+              label="Title Font Size"
+              value={textConfig.titleFontSize}
+              onChange={(size) =>
+                setTextConfig({ ...textConfig, titleFontSize: size })
+              }
+            />
           </Col>
           <Col span={24}>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="baseline">
-              <Text>Sub Title Font Size</Text>
-              <InputNumber
-                value={textConfig.subTitleFontSize}
-                onChange={(size) =>
-                  setTextConfig({ ...textConfig, subTitleFontSize: size })
-                }
-              />
-            </Box>
+            <FontSizeInput
+              label="Sub Title Font Size"
+              value={textConfig.subTitleFontSize}
+              onChange={(size) =>
+                setTextConfig({ ...textConfig, subTitleFontSize: size })
+              }
+            />
           </Col>
           <Col span={24}>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="baseline">
-              <Text>Position</Text>
-              <Select
-                options={POSITION_KEYS.map((positionKey) => ({
-                  label: positionKey,
-                  value: positionKey
-                }))}
-                onSelect={(value) =>
-                  setTextConfig({ ...textConfig, placement: value })
-                }
-                value={textConfig.placement}
-              />
-            </Box>
+            <PositionSelect
+              onSelect={(value) =>
+                setTextConfig({ ...textConfig, placement: value })
+              }
+              value={textConfig.placement}
+            />
           </Col>
           <Col span={24}>
-            <ColorPicker color={textConfig.color} onChange={onColorChange} />
+            <ColorPicker
+              color={textConfig.color}
+              onChange={onColorChange}
+              icon={<FontColorsOutlined />}
+            />
           </Col>
         </Row>
       </Col>
     </Row>
   )
 }
+
+const FontSizeInput = (props) => {
+  const { label, ...rest } = props
+  return (
+    <Box display="flex" justifyContent="space-between" alignItems="baseline">
+      <Space>
+        <FontSizeOutlined />
+        <Text>{label}</Text>
+      </Space>
+      <InputNumber {...rest} />
+    </Box>
+  )
+}
+
 TypographyForm.propTypes = {
   textConfig: PropTypes.shape({
     placement: PropTypes.oneOf(POSITION_KEYS),
