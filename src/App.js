@@ -5,12 +5,12 @@ import { Layer, Stage, Text, Group, Image, Rect } from 'react-konva'
 import useImage from 'use-image'
 import { saveAs } from 'file-saver'
 import dataURLtoBlob from 'dataurl-to-blob'
-import SizeForm from './components/SizeForm'
-import CanvasBgForm from './components/CanvasBGForm'
-import TypographyForm from './components/TypographyForm'
-
-import { POSITIONS } from './constants'
 import { SaveOutlined } from '@ant-design/icons'
+import SizeForm from '~/components/SizeForm'
+import CanvasBgForm from '~/components/CanvasBGForm'
+import TypographyForm from '~/components/TypographyForm'
+import storage from '~/services/storage'
+import { POSITIONS } from '~/constants'
 
 // [DEFAULT_STATE_VALUES]
 const INITIAL_TEXT_CONFIG = {
@@ -139,7 +139,11 @@ function App() {
               onImageUpload={(imageURL) =>
                 setBackground({ ...background, imageURL })
               }
-              color={background.color}
+              onImageReset={() => {
+                storage.refFromURL(background.imageURL).delete()
+                setBackground({ ...background, imageURL: '' })
+              }}
+              background={background}
             />
           </Col>
         </Row>
