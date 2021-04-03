@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, Upload, message } from 'antd'
-import { UploadOutlined } from '@ant-design/icons'
 import ImgCrop from 'antd-img-crop'
 import { v5 as uuidv5, v4 as uuidv4 } from 'uuid'
+import { ScissorOutlined, UploadOutlined } from '@ant-design/icons'
 import storage from '~/services/storage'
 
 const STORAGE_URL = 'backgrounds/'
@@ -13,14 +13,15 @@ const STORAGE_URL = 'backgrounds/'
  *
  * @comment Uploader - React component.
  *
- * @since 28 Mar 2021 ( v.0.0.2 ) // LAST-EDIT DATE
+ * @since 02 Apr 2021 ( v.0.0.3 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
 
 const Uploader = (props) => {
   // [INTERFACE]
-  const { onUploaded } = props
+  const { onUploaded, withCrop, isLoading } = props
+
   // [COMPONENT_STATE_HOOKS]
   const [loading, setLoading] = useState(false)
 
@@ -54,20 +55,35 @@ const Uploader = (props) => {
     }
   }
 
+  // [USE_EFFECTS]
+  useEffect(() => isLoading?.(loading), [loading, isLoading])
+
   // [TEMPLATE]
-  return (
-    <ImgCrop rotate>
+  if (withCrop) {
+    return (
+      <ImgCrop rotate>
+        <Upload showUploadList={false} customRequest={onUploadAvatar}>
+          <Button size="small" loading={loading} icon={<ScissorOutlined />}>
+            With crop
+          </Button>
+        </Upload>
+      </ImgCrop>
+    )
+  } else {
+    return (
       <Upload showUploadList={false} customRequest={onUploadAvatar}>
         <Button size="small" loading={loading} icon={<UploadOutlined />}>
-          Upload
+          Without crop
         </Button>
       </Upload>
-    </ImgCrop>
-  )
+    )
+  }
 }
 
 Uploader.propTypes = {
-  onUploaded: PropTypes.func
+  onUploaded: PropTypes.func,
+  withCrop: PropTypes.bool,
+  isLoading: PropTypes.func
 }
 
 export default Uploader
