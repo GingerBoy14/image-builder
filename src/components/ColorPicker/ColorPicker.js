@@ -1,37 +1,37 @@
 import PropTypes from 'prop-types'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Space } from 'antd'
 import { Box, Text } from 'antd-styled'
 import { ChromePicker } from 'react-color'
 import { BgColorsOutlined } from '@ant-design/icons'
+import { useOutsideClick } from '~/hooks'
 
-function useOutsideAlerter(ref, callback) {
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        callback()
-      }
-    }
-
-    // Bind the event listener
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [ref, callback])
-}
+/**
+ * @info TypographyForm (27 Mar 2021) // CREATION DATE
+ *
+ * @comment TypographyForm - React component.
+ *
+ * @since 03 Apr 2021 ( v.0.0.3 ) // LAST-EDIT DATE
+ *
+ * @return {React.FC}
+ */
 
 const ColorPicker = (props) => {
   // [INTERFACES]
-  const { icon } = props
+  const { icon, onChange, ...rest } = props
 
   // [COMPONENT_STATE_HOOKS]
   const pickerRef = useRef(null)
   const [pickerVisible, setPickerVisible] = useState(false)
 
   // [ADDITIONAL_HOOKS]
-  useOutsideAlerter(pickerRef, () => setPickerVisible(false))
+  useOutsideClick(pickerRef, () => setPickerVisible(false))
+
+  // [HELPER_FUNCTIONS]
+  const onColorSelect = (color) => {
+    const rgba = `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`
+    onChange?.(rgba, color)
+  }
 
   return (
     <Box display="flex" justifyContent="space-between">
@@ -59,7 +59,7 @@ const ColorPicker = (props) => {
             top: '100%'
           }}>
           <Box m={3} mt={1}>
-            <ChromePicker {...props} />
+            <ChromePicker onChange={onColorSelect} {...rest} />
           </Box>
         </div>
       )}

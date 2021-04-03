@@ -14,7 +14,7 @@ const { TextArea } = Input
  *
  * @comment TypographyForm - React component.
  *
- * @since 03 Apr 2021 ( v.0.0.5 ) // LAST-EDIT DATE
+ * @since 03 Apr 2021 ( v.0.0.6 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -23,7 +23,7 @@ const TypographyForm = (props) => {
   const { textConfig, setTextConfig } = props
 
   const onColorChange = (color) => {
-    setTextConfig({ ...textConfig, color: color.hex })
+    setTextConfig({ ...textConfig, color })
   }
 
   return (
