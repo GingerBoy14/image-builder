@@ -62,6 +62,7 @@ const FontFamilySelect = (props) => {
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Text>Text Font Family</Text>
         <Select
+          showSearch
           loading={loading}
           options={fonts.map((font) => ({
             label: font.font,
