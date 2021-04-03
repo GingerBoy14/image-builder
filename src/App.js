@@ -88,6 +88,7 @@ function App() {
                         fontSize={textConfig.titleFontSize}
                         fill={textConfig.color}
                         fontFamily={textConfig.textFontFamily}
+                        fontStyle={textConfig.textFontWeight}
                         align="center"
                         width={dimension.width / 3}
                       />
@@ -97,6 +98,7 @@ function App() {
                         y={textConfig.titleText && textConfig.titleFontSize}
                         text={textConfig.subTitleText}
                         fontFamily={textConfig.textFontFamily}
+                        fontStyle={textConfig.textFontWeight}
                         fontSize={textConfig.subTitleFontSize}
                         fill={textConfig.color}
                         width={dimension.width / 3}
