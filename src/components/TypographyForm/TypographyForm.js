@@ -34,11 +34,14 @@ const FONT_WEIGHTS = {
 }
 
 const TypographyForm = (props) => {
+  // [INTERFACES]
   const { textConfig, setTextConfig } = props
 
+  // [COMPONENT_STATE_HOOKS]
   const [loading, setLoading] = useState(false)
   const [weights, setWeights] = useState([])
 
+  // [HELPER_FUNCTION]
   const onColorChange = (color) => {
     setTextConfig({ ...textConfig, color: color.hex })
   }
@@ -54,16 +57,16 @@ const TypographyForm = (props) => {
       fonts.push(
         ...googleFonts.items.slice(0, 20).map((font) => ({
           font: font.family,
-          weights: font.variants.filter((variant) => {
-            if (variant.match(/^[0-9]+$/) || variant.match(/^[a-zA-Z]+$/))
-              return variant
-          })
+          weights: font.variants.filter(
+            (variant) =>
+              (variant.match(/^[0-9]+$/) || variant.match(/^[a-zA-Z]+$/)) &&
+              variant
+          )
         }))
       )
       setTextConfig({
         ...textConfig,
         textFontFamily: fonts[0]?.font
-        // textFontWeight: fonts[0]?.weights[0]
       })
       setWeights(fonts[0]?.weights)
       setLoading(false)
@@ -137,7 +140,10 @@ const TypographyForm = (props) => {
               alignItems="center">
               <Text>Text Font Weight</Text>
               <Select
-                defaultValue={FONT_WEIGHTS[weights[0]]?.label}
+                defaultValue={
+                  FONT_WEIGHTS['regular']?.value ||
+                  FONT_WEIGHTS[weights[0]]?.value
+                }
                 options={weights?.map((weight) => ({
                   label: (
                     <Text
