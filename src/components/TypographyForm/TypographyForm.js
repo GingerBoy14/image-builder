@@ -76,7 +76,6 @@ const TypographyForm = (props) => {
     fetchData()
   }, [])
 
-  if (loading) return <div>loading</div>
   return (
     <Row>
       <GoogleFontLoader fonts={fonts} />
@@ -131,6 +130,7 @@ const TypographyForm = (props) => {
                   })
                   setWeights(_.find(fonts, ['font', fontFamily])?.weights)
                 }}
+                loading={loading}
                 style={{ width: '200px' }}
               />
             </Box>
@@ -155,6 +155,7 @@ const TypographyForm = (props) => {
                   ),
                   value: FONT_WEIGHTS[weight].value
                 }))}
+                loading={loading}
                 onSelect={(weight) => {
                   setTextConfig({
                     ...textConfig,
