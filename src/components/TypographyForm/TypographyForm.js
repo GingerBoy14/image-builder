@@ -40,6 +40,7 @@ const TypographyForm = (props) => {
   // [COMPONENT_STATE_HOOKS]
   const [loading, setLoading] = useState(false)
   const [weights, setWeights] = useState([])
+  const [defaultWeight, setDefaultWeight] = useState()
 
   // [HELPER_FUNCTION]
   const onColorChange = (color) => {
@@ -66,7 +67,8 @@ const TypographyForm = (props) => {
       )
       setTextConfig({
         ...textConfig,
-        textFontFamily: fonts[0]?.font
+        textFontFamily: fonts[0]?.font,
+        textFontWeight: FONT_WEIGHTS['regular']?.value
       })
       setWeights(fonts[0]?.weights)
       setLoading(false)
@@ -74,6 +76,12 @@ const TypographyForm = (props) => {
 
     fetchData()
   }, [])
+
+  useEffect(() => {
+    setDefaultWeight(
+      FONT_WEIGHTS['regular']?.value || FONT_WEIGHTS[weights[0]]?.value
+    )
+  }, [textConfig])
 
   if (loading) return <div>loading</div>
   return (
@@ -125,7 +133,8 @@ const TypographyForm = (props) => {
                 onSelect={(fontFamily) => {
                   setTextConfig({
                     ...textConfig,
-                    textFontFamily: fontFamily
+                    textFontFamily: fontFamily,
+                    textFontWeight: FONT_WEIGHTS['regular'].value
                   })
                   setWeights(_.find(fonts, ['font', fontFamily])?.weights)
                 }}
@@ -140,10 +149,7 @@ const TypographyForm = (props) => {
               alignItems="center">
               <Text>Text Font Weight</Text>
               <Select
-                defaultValue={
-                  FONT_WEIGHTS['regular']?.value ||
-                  FONT_WEIGHTS[weights[0]]?.value
-                }
+                defaultValue={defaultWeight}
                 options={weights?.map((weight) => ({
                   label: (
                     <Text
