@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types'
+import { Button, Popover, Space } from 'antd'
 import { Title, Row, Col, Box, Text, Remove } from 'antd-styled'
-import ColorPicker from '../ColorPicker'
-import Uploader from '../Uploader'
-import { CloseCircleOutlined } from '@ant-design/icons'
-import { Space } from 'antd'
+import { CloseCircleOutlined, UploadOutlined } from '@ant-design/icons'
+import ColorPicker from '~/components/ColorPicker'
+import Uploader from '~/components/Uploader'
 
 /**
  * @info CanvasBgForm (27 Mar 2021) // CREATION DATE
  *
  * @comment CanvasBgForm - React component.
  *
- * @since 27 Mar 2021 ( v.0.0.3 ) // LAST-EDIT DATE
+ * @since 02 Apr 2021 ( v.0.0.4 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -21,8 +21,20 @@ const CanvasBgForm = (props) => {
 
   // [HELPER_FUNCTIONS]
   const onColorChange = (color) => {
-    onColorSelect(color.hex)
+    onColorSelect(color)
   }
+
+  // [COMPUTED_PROPERTIES]
+  const popoverContent = (
+    <Row>
+      <Col>
+        <Uploader onUploaded={onImageUpload} />
+      </Col>
+      <Col>
+        <Uploader onUploaded={onImageUpload} withCrop />
+      </Col>
+    </Row>
+  )
 
   // [TEMPLATE]
   return (
@@ -39,8 +51,16 @@ const CanvasBgForm = (props) => {
           justifyContent="space-between"
           alignItems="baseline">
           <Text>Image</Text>
-          <Space>
-            <Uploader onUploaded={onImageUpload} />
+          <Space size={!background.imageURL ? 0 : 'small'}>
+            <Popover
+              placement="topRight"
+              title="Select option"
+              content={popoverContent}>
+              <Button size="small" type="text" icon={<UploadOutlined />}>
+                Upload
+              </Button>
+            </Popover>
+
             {background.imageURL && (
               <Remove
                 size="small"

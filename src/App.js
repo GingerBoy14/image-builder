@@ -6,9 +6,7 @@ import useImage from 'use-image'
 import { saveAs } from 'file-saver'
 import dataURLtoBlob from 'dataurl-to-blob'
 import { SaveOutlined } from '@ant-design/icons'
-import SizeForm from '~/components/SizeForm'
-import CanvasBgForm from '~/components/CanvasBGForm'
-import TypographyForm from '~/components/TypographyForm'
+import { SizeForm, CanvasBgForm, TypographyForm } from '~/components/forms'
 import storage from '~/services/storage'
 import { POSITIONS } from '~/constants'
 
@@ -19,7 +17,7 @@ const INITIAL_TEXT_CONFIG = {
   subTitleFontSize: 16,
   placement: Object.keys(POSITIONS)[0]
 }
-const INITIAL_BACKGROUND = { color: 'white' }
+const INITIAL_BACKGROUND = { color: 'white', imageURL: '' }
 const INITIAL_DIMENSION = { width: 500, height: 500 }
 
 /**
@@ -27,7 +25,7 @@ const INITIAL_DIMENSION = { width: 500, height: 500 }
  *
  * @comment App - React component.
  *
- * @since 29 Mar 2021 ( v.0.0.5 ) // LAST-EDIT DATE
+ * @since 02 Mar 2021 ( v.0.0.6 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -72,7 +70,13 @@ function App() {
                   height={dimension.height}
                   fill={background.color}
                 />
-                {image && <Image image={image} />}
+                {image && (
+                  <Image
+                    image={image}
+                    width={dimension.width}
+                    height={dimension.height}
+                  />
+                )}
               </Layer>
 
               {(textConfig.titleText || textConfig.subTitleText) && (
@@ -112,14 +116,14 @@ function App() {
           <Col flex={1}>
             <Box display="flex" justifyContent="flex-end">
               <Space>
+                <Button type="text" onClick={reset}>
+                  Reset
+                </Button>
                 <Button
                   icon={<SaveOutlined />}
                   type="primary"
                   onClick={saveToFile}>
                   Save
-                </Button>
-                <Button type="primary" onClick={reset}>
-                  Reset
                 </Button>
               </Space>
             </Box>
