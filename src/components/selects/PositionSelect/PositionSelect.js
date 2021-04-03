@@ -15,7 +15,7 @@ import { POSITION_KEYS } from '~/constants'
  */
 
 const PositionSelect = (props) => (
-  <Box display="flex" justifyContent="space-between" alignItems="baseline">
+  <Box display="flex" justifyContent="space-between">
     <Space>
       <BorderlessTableOutlined />
       <Text>Position</Text>
