@@ -75,7 +75,6 @@ const TypographyForm = (props) => {
 
     fetchData()
   }, [])
-
   if (loading) return <div>loading</div>
   return (
     <Row>
