@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Button, Popover, Space } from 'antd'
+import { Button, Popover, Select, Space } from 'antd'
 import { Title, Row, Col, Box, Text, Remove } from 'antd-styled'
 import { CloseCircleOutlined, UploadOutlined } from '@ant-design/icons'
 import ColorPicker from '~/components/ColorPicker'
@@ -10,14 +10,34 @@ import Uploader from '~/components/Uploader'
  *
  * @comment CanvasBgForm - React component.
  *
- * @since 02 Apr 2021 ( v.0.0.4 ) // LAST-EDIT DATE
+ * @since 04 Apr 2021 ( v.0.0.5 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
 
+const IMAGE_SETTINGS = [
+  {
+    label: 'original',
+    value: 'original',
+    func: () => ({ width: undefined, height: undefined })
+  },
+
+  {
+    label: 'stretch',
+    value: 'stretch',
+    func: ({ dw, dh }) => ({ width: dw, height: dh })
+  }
+]
+
 const CanvasBgForm = (props) => {
   // [INTERFACES]
-  const { onColorSelect, onImageUpload, onImageReset, background } = props
+  const {
+    onColorSelect,
+    onImageUpload,
+    onImageReset,
+    onImageFitChange,
+    background
+  } = props
 
   // [HELPER_FUNCTIONS]
   const onColorChange = (color) => {
@@ -78,6 +98,22 @@ const CanvasBgForm = (props) => {
           </Space>
         </Box>
       </Col>
+      {background.imageURL && (
+        <Col span={24}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center">
+            <Text>Image-fit</Text>
+            <Select
+              options={IMAGE_SETTINGS}
+              defaultValue={IMAGE_SETTINGS[0].label}
+              onChange={onImageFitChange}
+              style={{ minWidth: '100px' }}
+            />
+          </Box>
+        </Col>
+      )}
     </Row>
   )
 }

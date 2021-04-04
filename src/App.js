@@ -25,7 +25,7 @@ const INITIAL_DIMENSION = { width: 500, height: 500 }
  *
  * @comment App - React component.
  *
- * @since 02 Mar 2021 ( v.0.0.6 ) // LAST-EDIT DATE
+ * @since 04 Mar 2021 ( v.0.0.7 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -73,8 +73,11 @@ function App() {
                 {image && (
                   <Image
                     image={image}
-                    width={dimension.width}
-                    height={dimension.height}
+                    {...background.imageFit?.({
+                      dw: dimension.width,
+                      dh: dimension.height,
+                      image
+                    })}
                   />
                 )}
               </Layer>
@@ -147,6 +150,9 @@ function App() {
                 storage.refFromURL(background.imageURL).delete()
                 setBackground({ ...background, imageURL: '' })
               }}
+              onImageFitChange={(_, option) =>
+                setBackground({ ...background, imageFit: option.func })
+              }
               background={background}
             />
           </Col>
