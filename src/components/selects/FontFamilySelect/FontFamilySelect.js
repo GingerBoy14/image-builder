@@ -24,6 +24,8 @@ const FontFamilySelect = (props) => {
   const [loading, setLoading] = useState(false)
   const [children, setChildren] = useState([])
   const [fonts, setFonts] = useState([])
+  const [isSearch, setIsSearch] = useState(false)
+  const [searchChildren, setSearchChildren] = useState([])
 
   // [HELPER_FUNCTIONS]
   const getNewFonts = () => {
@@ -42,7 +44,7 @@ const FontFamilySelect = (props) => {
   }
 
   const onSelect = (fontFamily) => {
-    onFontSelect?.(fontFamily, fonts)
+    onFontSelect?.(fontFamily, googleFonts)
   }
 
   const onScroll = (event) => {
@@ -53,8 +55,18 @@ const FontFamilySelect = (props) => {
       getNewFonts()
   }
 
-  const onSearch = (val) => {
-    console.log(val)
+  const onSearch = (string) => {
+    setIsSearch(string)
+    setSearchChildren(
+      googleFonts.map(
+        (font) =>
+          font.font.includes(string) && (
+            <Select.Option value={font.font} key={font.font}>
+              {font.font}
+            </Select.Option>
+          )
+      )
+    )
   }
 
   // [USE_EFFECTS]
@@ -102,13 +114,15 @@ const FontFamilySelect = (props) => {
         onPopupScroll={onScroll}
         {...props}
         style={{ minWidth: '150px' }}>
-        {!loading &&
+        {!isSearch &&
+          !loading &&
           children && [
             ...children,
             <Select.Option key="loading" disabled>
               Loading...
             </Select.Option>
           ]}
+        {isSearch && searchChildren && searchChildren}
       </Select>
     </Box>
   )
