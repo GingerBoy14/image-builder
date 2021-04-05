@@ -16,7 +16,7 @@ const { TextArea } = Input
  *
  * @comment TypographyForm - React component.
  *
- * @since 04 Apr 2021 ( v.0.0.7 ) // LAST-EDIT DATE
+ * @since 05 Apr 2021 ( v.0.0.8 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -36,7 +36,7 @@ const TypographyForm = (props) => {
     setTextConfig({ ...textConfig, color })
   }
   const onFontsLoaded = (allFonts, defaultWeight) => {
-    fonts = allFonts
+    fonts = allFonts.slice(0, 20)
     setTextConfig({
       ...textConfig,
       textFontFamily: fonts[0]?.font,
