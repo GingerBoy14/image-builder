@@ -25,7 +25,7 @@ const INITIAL_DIMENSION = { width: 500, height: 500 }
  *
  * @comment App - React component.
  *
- * @since 04 Mar 2021 ( v.0.0.7 ) // LAST-EDIT DATE
+ * @since 05 Mar 2021 ( v.0.0.8 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -131,16 +131,16 @@ function App() {
               </Space>
             </Box>
           </Col>
-          <Col flex={1}>
+          <Col span={24}>
             <SizeForm onSizeChange={setDimension} dimension={dimension} />
           </Col>
-          <Col flex={1}>
+          <Col span={24}>
             <TypographyForm
               textConfig={textConfig}
               setTextConfig={setTextConfig}
             />
           </Col>
-          <Col flex={1}>
+          <Col span={24}>
             <CanvasBgForm
               onColorSelect={(color) => setBackground({ ...background, color })}
               onImageUpload={(imageURL) =>

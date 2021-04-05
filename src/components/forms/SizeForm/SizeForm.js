@@ -7,7 +7,7 @@ import { InputNumber } from 'antd'
  *
  * @comment SizeForm - React component.
  *
- * @since 27 Mar 2021 ( v.0.0.3 ) // LAST-EDIT DATE
+ * @since 05 Mar 2021 ( v.0.0.4 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -32,10 +32,10 @@ const SizeForm = (props) => {
       </Col>
       <Col span={24}>
         <Row wrap={false}>
-          <Col>
+          <Col flex={1}>
             <SizeInput onChange={setWidth} value={dimension.width} />
           </Col>
-          <Col>
+          <Col flex={1}>
             <SizeInput onChange={setHeight} value={dimension.height} />
           </Col>
         </Row>
