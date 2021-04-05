@@ -10,7 +10,7 @@ import { FONT_WEIGHTS } from '~/constants'
  *
  * @comment FontFamilySelect - React component.
  *
- * @since 03 Apr 2021 ( v.0.0.2 ) // LAST-EDIT DATE
+ * @since 04 Apr 2021 ( v.0.0.3 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -23,10 +23,39 @@ const FontFamilySelect = (props) => {
 
   // [COMPONENT_STATE_HOOKS]
   const [loading, setLoading] = useState(false)
+  const [children, setChildren] = useState([])
+  const [page, setPage] = useState(10)
 
   // [HELPER_FUNCTIONS]
+  const getNewFonts = () => {
+    setLoading(true)
+    const newFonts = [...children]
+    newFonts.push(
+      ...fonts.slice(page, page + 10).map((font) => (
+        <Select.Option value={font.font} key={font.font}>
+          {font.font}
+        </Select.Option>
+      ))
+    )
+    setChildren(newFonts)
+    setLoading(false)
+  }
+
   const onSelect = (fontFamily) => {
     onFontSelect?.(fontFamily, fonts)
+  }
+
+  const onScroll = (event) => {
+    const target = event.target
+    setPage((prev) => prev + 1)
+
+    !loading &&
+      target.scrollTop + target.offsetHeight === target.scrollHeight &&
+      getNewFonts()
+  }
+
+  const onSearch = (val) => {
+    console.log(val)
   }
 
   // [USE_EFFECTS]
@@ -38,7 +67,7 @@ const FontFamilySelect = (props) => {
       )
       const googleFonts = await response.json()
       fonts.push(
-        ...googleFonts.items.slice(0, 20).map((font) => ({
+        ...googleFonts.items.map((font) => ({
           font: font.family,
           weights: font.variants.filter(
             (variant) =>
@@ -47,8 +76,16 @@ const FontFamilySelect = (props) => {
           )
         }))
       )
-      onFontsLoaded?.(fonts, FONT_WEIGHTS.regular.value)
+      setChildren(
+        fonts.slice(0, 10).map((font) => (
+          <Select.Option value={font.font} key={font.font}>
+            {font.font}
+          </Select.Option>
+        ))
+      )
+      setPage((prev) => prev + 1)
 
+      onFontsLoaded?.(fonts, FONT_WEIGHTS.regular.value)
       setLoading(false)
     }
 
@@ -64,14 +101,19 @@ const FontFamilySelect = (props) => {
         <Select
           showSearch
           loading={loading}
-          options={fonts.map((font) => ({
-            label: font.font,
-            value: font.font
-          }))}
           onSelect={onSelect}
+          onSearch={onSearch}
+          onPopupScroll={onScroll}
           {...props}
-          style={{ minWidth: '150px' }}
-        />
+          style={{ minWidth: '150px' }}>
+          {!loading &&
+            children && [
+              ...children,
+              <Select.Option key="loading" disabled>
+                Loading...
+              </Select.Option>
+            ]}
+        </Select>
       </Box>
     </>
   )
