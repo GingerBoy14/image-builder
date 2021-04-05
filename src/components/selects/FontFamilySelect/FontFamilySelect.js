@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { Select } from 'antd'
 import { Box, Text } from 'antd-styled'
-import GoogleFontLoader from 'react-google-font-loader'
 import { FONT_WEIGHTS } from '~/constants'
 
 /**
@@ -10,7 +9,7 @@ import { FONT_WEIGHTS } from '~/constants'
  *
  * @comment FontFamilySelect - React component.
  *
- * @since 03 Apr 2021 ( v.0.0.2 ) // LAST-EDIT DATE
+ * @since 04 Apr 2021 ( v.0.0.3 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -22,7 +21,7 @@ const FontFamilySelect = (props) => {
   const { onFontsLoaded, onFontSelect } = props
 
   // [COMPONENT_STATE_HOOKS]
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   // [HELPER_FUNCTIONS]
   const onSelect = (fontFamily) => {
@@ -32,7 +31,6 @@ const FontFamilySelect = (props) => {
   // [USE_EFFECTS]
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true)
       const response = await fetch(
         `https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=${process.env.REACT_APP_GOOGLE_FONT_API_KEY}`
       )
@@ -57,23 +55,20 @@ const FontFamilySelect = (props) => {
 
   // [TEMPLATE]
   return (
-    <>
-      <GoogleFontLoader fonts={fonts} />
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Text>Text Font Family</Text>
-        <Select
-          showSearch
-          loading={loading}
-          options={fonts.map((font) => ({
-            label: font.font,
-            value: font.font
-          }))}
-          onSelect={onSelect}
-          {...props}
-          style={{ minWidth: '150px' }}
-        />
-      </Box>
-    </>
+    <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Text>Text Font Family</Text>
+      <Select
+        showSearch
+        loading={loading}
+        options={fonts.map((font) => ({
+          label: font.font,
+          value: font.font
+        }))}
+        onSelect={onSelect}
+        {...props}
+        style={{ minWidth: '150px' }}
+      />
+    </Box>
   )
 }
 
