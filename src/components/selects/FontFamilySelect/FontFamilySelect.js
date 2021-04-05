@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react'
 import { Select } from 'antd'
 import { Box, Text } from 'antd-styled'
-import GoogleFontLoader from 'react-google-font-loader'
 import { FONT_WEIGHTS } from '~/constants'
 
 /**
@@ -61,7 +60,6 @@ const FontFamilySelect = (props) => {
   // [USE_EFFECTS]
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true)
       const response = await fetch(
         `https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=${process.env.REACT_APP_GOOGLE_FONT_API_KEY}`
       )
@@ -94,28 +92,25 @@ const FontFamilySelect = (props) => {
 
   // [TEMPLATE]
   return (
-    <>
-      <GoogleFontLoader fonts={fonts} />
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Text>Text Font Family</Text>
-        <Select
-          showSearch
-          loading={loading}
-          onSelect={onSelect}
-          onSearch={onSearch}
-          onPopupScroll={onScroll}
-          {...props}
-          style={{ minWidth: '150px' }}>
-          {!loading &&
-            children && [
-              ...children,
-              <Select.Option key="loading" disabled>
-                Loading...
-              </Select.Option>
-            ]}
-        </Select>
-      </Box>
-    </>
+    <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Text>Text Font Family</Text>
+      <Select
+        showSearch
+        loading={loading}
+        onSelect={onSelect}
+        onSearch={onSearch}
+        onPopupScroll={onScroll}
+        {...props}
+        style={{ minWidth: '150px' }}>
+        {!loading &&
+          children && [
+            ...children,
+            <Select.Option key="loading" disabled>
+              Loading...
+            </Select.Option>
+          ]}
+      </Select>
+    </Box>
   )
 }
 
