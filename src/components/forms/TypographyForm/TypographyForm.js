@@ -36,7 +36,7 @@ const TypographyForm = (props) => {
     setTextConfig({ ...textConfig, color })
   }
   const onFontsLoaded = (allFonts, defaultWeight) => {
-    fonts = allFonts
+    fonts = allFonts.slice(0, 20)
     setTextConfig({
       ...textConfig,
       textFontFamily: fonts[0]?.font,
