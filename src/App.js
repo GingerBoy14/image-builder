@@ -6,7 +6,12 @@ import useImage from 'use-image'
 import { saveAs } from 'file-saver'
 import dataURLtoBlob from 'dataurl-to-blob'
 import { SaveOutlined } from '@ant-design/icons'
-import { SizeForm, CanvasBgForm, TypographyForm } from '~/components/forms'
+import {
+  SizeForm,
+  CanvasBgForm,
+  TypographyForm,
+  IllustrationForm
+} from '~/components/forms'
 import storage from '~/services/storage'
 import { POSITIONS } from '~/constants'
 
@@ -25,7 +30,7 @@ const INITIAL_DIMENSION = { width: 500, height: 500 }
  *
  * @comment App - React component.
  *
- * @since 05 Mar 2021 ( v.0.0.8 ) // LAST-EDIT DATE
+ * @since 06 Mar 2021 ( v.0.0.9 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -155,6 +160,9 @@ function App() {
               }
               background={background}
             />
+          </Col>
+          <Col span={24}>
+            <IllustrationForm />
           </Col>
         </Row>
       </Sider>
