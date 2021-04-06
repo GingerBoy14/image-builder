@@ -119,7 +119,7 @@ function App() {
           </Col>
         </Row>
       </Content>
-      <Sider bg="#fff" width="25%" p={3}>
+      <Sider bg="#fff" width="25%" p={3} className="sider-container">
         <Row gutter={[8, 16]}>
           <Col flex={1}>
             <Box display="flex" justifyContent="flex-end">
