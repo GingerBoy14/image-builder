@@ -4,11 +4,12 @@ import { Remove } from 'antd-styled'
 import { DeleteOutlined } from '@ant-design/icons'
 import { PositionSelect } from '~/components/selects'
 import Uploader from '~/components/Uploader'
+import { POSITION_KEYS } from '~/constants'
 
 /**
- * @info TypographyForm (05 Apr 2021) // CREATION DATE
+ * @info ImagesForm (05 Apr 2021) // CREATION DATE
  *
- * @comment TypographyForm - React component.
+ * @comment ImagesForm - React component.
  *
  * @since 06 Apr 2021 ( v.0.0.2 ) // LAST-EDIT DATE
  *
@@ -45,6 +46,7 @@ const ImagesForm = (props) => {
 }
 
 ImagesForm.propTypes = {
+  position: PropTypes.oneOf(POSITION_KEYS),
   onFormDelete: PropTypes.func
 }
 

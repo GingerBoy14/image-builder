@@ -10,9 +10,9 @@ import FiguresForm from '~/components/forms/FiguresForm'
 import { POSITION_KEYS } from '~/constants'
 
 /**
- * @info TypographyForm (05 Apr 2021) // CREATION DATE
+ * @info IllustrationForm (05 Apr 2021) // CREATION DATE
  *
- * @comment TypographyForm - React component.
+ * @comment IllustrationForm - React component.
  *
  * @since 06 Apr 2021 ( v.0.0.3 ) // LAST-EDIT DATE
  *
