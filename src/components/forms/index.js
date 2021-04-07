@@ -1,3 +1,6 @@
 export { default as CanvasBgForm } from './CanvasBGForm'
 export { default as TypographyForm } from './TypographyForm'
 export { default as SizeForm } from './SizeForm'
+export { default as ImagesForm } from './ImagesForm'
+export { default as FiguresForm } from './FiguresForm'
+export { default as IllustrationForm } from './IllustrationForm'

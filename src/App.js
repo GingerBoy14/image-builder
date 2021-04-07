@@ -6,7 +6,12 @@ import useImage from 'use-image'
 import { saveAs } from 'file-saver'
 import dataURLtoBlob from 'dataurl-to-blob'
 import { SaveOutlined } from '@ant-design/icons'
-import { SizeForm, CanvasBgForm, TypographyForm } from '~/components/forms'
+import {
+  SizeForm,
+  CanvasBgForm,
+  TypographyForm,
+  IllustrationForm
+} from '~/components/forms'
 import storage from '~/services/storage'
 import { POSITIONS } from '~/constants'
 
@@ -25,7 +30,7 @@ const INITIAL_DIMENSION = { width: 500, height: 500 }
  *
  * @comment App - React component.
  *
- * @since 04 Mar 2021 ( v.0.0.7 ) // LAST-EDIT DATE
+ * @since 06 Mar 2021 ( v.0.0.9 ) // LAST-EDIT DATE
  *
  * @return {React.FC}
  */
@@ -114,7 +119,7 @@ function App() {
           </Col>
         </Row>
       </Content>
-      <Sider bg="#fff" width="25%" p={3}>
+      <Sider bg="#fff" width="25%" p={3} className="sider-container">
         <Row gutter={[8, 16]}>
           <Col flex={1}>
             <Box display="flex" justifyContent="flex-end">
@@ -131,16 +136,16 @@ function App() {
               </Space>
             </Box>
           </Col>
-          <Col flex={1}>
+          <Col span={24}>
             <SizeForm onSizeChange={setDimension} dimension={dimension} />
           </Col>
-          <Col flex={1}>
+          <Col span={24}>
             <TypographyForm
               textConfig={textConfig}
               setTextConfig={setTextConfig}
             />
           </Col>
-          <Col flex={1}>
+          <Col span={24}>
             <CanvasBgForm
               onColorSelect={(color) => setBackground({ ...background, color })}
               onImageUpload={(imageURL) =>
@@ -155,6 +160,9 @@ function App() {
               }
               background={background}
             />
+          </Col>
+          <Col span={24}>
+            <IllustrationForm />
           </Col>
         </Row>
       </Sider>
